@@ -48,7 +48,7 @@ while [ "$#" -gt 0 ]; do
         echo "${0##*/}: option requires an argument -- '${1##*-}'"
         exit 2
       fi
-      echo -e "$2" >> "$script"
+      printf "%s\n" "$2" >> "$script"
       require_program=0
       shift
       ;;
@@ -72,7 +72,7 @@ if [ "$require_program" -eq 1 ]; then
     echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
     exit 2
   fi
-  echo "$1" >> "$script"
+  printf "%s\n" "$1" >> "$script"
   shift
 fi
 if [ "$require_print" -eq 1 ]; then
