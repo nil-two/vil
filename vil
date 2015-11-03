@@ -4,12 +4,15 @@ version='v0.1.0'
 
 usage() {
   cat <<__USAGE__ 1>&2
-Usage: ${0##*/} [OPTION]... PROGRAM [FILE]...
-Edit text with Vim script.
+Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 
 Options:
-      --help     display this help and exit
-      --version  output version information and exit
+  -f script-file, --file=script-file
+                 add the contents of script-file to the commands to be executed
+  --help
+                 display this help and exit
+  --version
+                 output version information and exit
 __USAGE__
 }
 
