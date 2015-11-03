@@ -1,5 +1,6 @@
 #! /bin/sh
 set -eu
+version='v0.1.0'
 
 usage() {
   cat <<__USAGE__ 1>&2
@@ -8,13 +9,22 @@ Edit text with Vim script.
 
 Options:
       --help     display this help and exit
+      --version  output version information and exit
 __USAGE__
+}
+
+version() {
+  echo "$version" 1>&2
 }
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --help)
       usage
+      exit 0
+      ;;
+    --version)
+      version
       exit 0
       ;;
     *)
