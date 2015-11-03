@@ -61,6 +61,10 @@ while [ "$#" -gt 0 ]; do
       require_program=0
       shift
       ;;
+    --)
+      shift
+      break
+      ;;
     *)
       break
       ;;
