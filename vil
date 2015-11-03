@@ -1,9 +1,22 @@
 #! /bin/sh
 set -eu
 
+usage() {
+  cat <<__USAGE__ 1>&2
+Usage: ${0##*/} [OPTION]... PROGRAM [FILE]...
+Edit text with Vim script.
+
+Options:
+      --help     display this help and exit
+__USAGE__
+}
+
 if [ "$#" -lt 1 ]; then
   echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
   exit 2
+elif [ "$1" = "--help" ]; then
+  usage
+  exit 0
 fi
 program="$1"
 shift
