@@ -3,6 +3,26 @@ vil
 
 Edit text with Vim script.
 
+```
+$ cat nums
+5
+2
+4
+
+$ cat nums | vil %sort
+2
+4
+5
+
+$ vil --help | vil -n '%s/^ */|g/^-/+1p'
+suppress automatic printing of buffer
+add the script to the commands to be executed
+add the contents of script-file to the commands to be executed
+display this help and exit
+output version information and exit
+
+```
+
 Usage
 -----
 
