@@ -7,6 +7,8 @@ usage() {
 Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 
 Options:
+  -n, --quiet, --silent
+                 suppress automatic printing of buffer
   -e script, --expression=script
                  add the script to the commands to be executed
   -f script-file, --file=script-file
@@ -26,6 +28,7 @@ script="$(mktemp)"
 src="$(mktemp)"
 trap 'rm '$script' '$src EXIT
 
+require_print=1
 require_program=1
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -36,6 +39,9 @@ while [ "$#" -gt 0 ]; do
     --version)
       version
       exit 0
+      ;;
+    -n|--quiet|--silent)
+      require_print=1
       ;;
     -e|--expression)
       if [ "$#" -lt 2 ]; then
@@ -69,7 +75,9 @@ if [ "$require_program" -eq 1 ]; then
   echo "$1" >> "$script"
   shift
 fi
-echo "%print" >> "$script"
+if [ "$require_print" -eq 1 ]; then
+  echo "%print" >> "$script"
+fi
 echo "exit" >> "$script"
 
 cat -- "$@" > "$src"
