@@ -11,12 +11,21 @@ Options:
 __USAGE__
 }
 
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --help)
+      usage
+      exit 0
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
 if [ "$#" -lt 1 ]; then
   echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
   exit 2
-elif [ "$1" = "--help" ]; then
-  usage
-  exit 0
 fi
 program="$1"
 shift
