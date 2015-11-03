@@ -7,6 +7,8 @@ usage() {
 Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 
 Options:
+  -e script, --expression=script
+                 add the script to the commands to be executed
   -f script-file, --file=script-file
                  add the contents of script-file to the commands to be executed
   --help
@@ -34,6 +36,15 @@ while [ "$#" -gt 0 ]; do
     --version)
       version
       exit 0
+      ;;
+    -e|--expression)
+      if [ "$#" -lt 2 ]; then
+        echo "${0##*/}: option requires an argument -- '${1##*-}'"
+        exit 2
+      fi
+      echo -e "$2" >> "$script"
+      require_program=0
+      shift
       ;;
     -f|--file)
       if [ "$#" -lt 2 ]; then
