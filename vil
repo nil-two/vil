@@ -42,7 +42,7 @@ while [ "$#" -gt 0 ]; do
       exit 0
       ;;
     -n|--quiet|--silent)
-      require_print=1
+      require_print=0
       ;;
     -e|--expression)
       if [ "$#" -lt 2 ]; then
