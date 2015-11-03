@@ -1,0 +1,19 @@
+#! /bin/sh
+set -eu
+
+if [ "$#" -lt 1 ]; then
+  echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
+  exit 2
+fi
+program="$1"
+shift
+
+script="$(mktemp)"
+src="$(mktemp)"
+trap 'rm '$script' '$src EXIT
+
+cat -- "$@" > "$src"
+echo "$program" >> "$script"
+echo "%print" >> "$script"
+echo "exit" >> "$script"
+vim -u NONE -i NONE -N -n -e -s -S "$script" "$src"
