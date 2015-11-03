@@ -17,6 +17,11 @@ version() {
   echo "$version" 1>&2
 }
 
+script="$(mktemp)"
+src="$(mktemp)"
+trap 'rm '$script' '$src EXIT
+
+require_program=1
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --help)
@@ -27,25 +32,31 @@ while [ "$#" -gt 0 ]; do
       version
       exit 0
       ;;
+    -f|--file)
+      if [ "$#" -lt 2 ]; then
+        echo "${0##*/}: option requires an argument -- '${1##*-}'"
+        exit 2
+      fi
+      cat "$2" >> "$script"
+      require_program=0
+      shift
+      ;;
     *)
       break
       ;;
   esac
   shift
 done
-if [ "$#" -lt 1 ]; then
-  echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
-  exit 2
+if [ "$require_program" -eq 1 ]; then
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: ${0##*/} [OPTION]... PROGRAM [FILE]..."  1>&2
+    exit 2
+  fi
+  echo "$1" >> "$script"
+  shift
 fi
-program="$1"
-shift
-
-script="$(mktemp)"
-src="$(mktemp)"
-trap 'rm '$script' '$src EXIT
-
-cat -- "$@" > "$src"
-echo "$program" >> "$script"
 echo "%print" >> "$script"
 echo "exit" >> "$script"
+
+cat -- "$@" > "$src"
 vim -u NONE -i NONE -N -n -e -s -S "$script" "$src"
