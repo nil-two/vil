@@ -24,8 +24,8 @@ version() {
   echo "$version" 1>&2
 }
 
-script="$(mktemp)"
-src="$(mktemp)"
+script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
+src="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
 trap 'rm '$script' '$src EXIT
 
 require_print=1
