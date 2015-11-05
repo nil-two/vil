@@ -36,6 +36,11 @@ curl -L https://raw.githubusercontent.com/kusabashira/vil/master/vil > ~/bin/vil
 chmod 755 ~/bin/vil
 ```
 
+Requirements
+-----------
+
+- Vim
+
 Usage
 -----
 
