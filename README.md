@@ -14,7 +14,7 @@ $ cat nums | vil %sort
 4
 5
 
-$ vil --help | vil -n '%s/^ */|g/^-/+1p'
+$ vil --help | vil -n '%s/^ *//|g/^-/+1p'
 suppress automatic printing of buffer
 add the script to the commands to be executed
 add the contents of script-file to the commands to be executed
