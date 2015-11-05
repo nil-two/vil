@@ -44,6 +44,13 @@ while [ "$#" -gt 0 ]; do
     -n|--quiet|--silent)
       require_print=0
       ;;
+    -n*)
+      require_print=0
+      next="-${1#-n}"
+      shift
+      set -- "$next" "$@"
+      continue
+      ;;
     -e|--expression)
       require_program=0
       if [ "$#" -lt 2 ]; then
@@ -53,6 +60,14 @@ while [ "$#" -gt 0 ]; do
       printf "%s\n" "$2" >> "$script"
       shift
       ;;
+    -e*)
+      require_program=0
+      printf "%s\n" "${1#-e}" >> "$script"
+      ;;
+    --expression=*)
+      require_program=0
+      printf "%s\n" "${1#--expression=}" >> "$script"
+      ;;
     -f|--file)
       require_program=0
       if [ "$#" -lt 2 ]; then
@@ -61,6 +76,14 @@ while [ "$#" -gt 0 ]; do
       fi
       cat "$2" >> "$script"
       shift
+      ;;
+    -f*)
+      require_program=0
+      cat "${1#-f}" >> "$script"
+      ;;
+    --file=*)
+      require_program=0
+      cat "${1#--file=}" >> "$script"
       ;;
     --)
       shift
