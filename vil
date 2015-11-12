@@ -3,7 +3,7 @@ set -eu
 version='0.2.0'
 
 usage() {
-  cat <<__USAGE__ 1>&2
+  cat <<__USAGE__ >&2
 Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 Edit text with Vim script.
 
@@ -22,7 +22,7 @@ __USAGE__
 }
 
 version() {
-  echo "$version" 1>&2
+  echo "$version" >&2
 }
 
 script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
