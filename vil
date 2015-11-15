@@ -27,7 +27,11 @@ version() {
 
 script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
 src="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
-trap 'rm '$script' '$src EXIT
+atexit() {
+	rm -f -- "$script" "$src"
+}
+trap 'atexit' EXIT
+trap 'trap - EXIT; atexit; exit -1' INT PIPE TERM
 
 require_print=1
 require_program=1
