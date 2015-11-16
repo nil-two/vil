@@ -78,16 +78,16 @@ while [ "$#" -gt 0 ]; do
         echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
         exit 2
       fi
-      cat "$2" >> "$script"
+      cat -- "$2" >> "$script"
       shift
       ;;
     -f*)
       require_program=0
-      cat "${1#-f}" >> "$script"
+      cat -- "${1#-f}" >> "$script"
       ;;
     --file=*)
       require_program=0
-      cat "${1#--file=}" >> "$script"
+      cat -- "${1#--file=}" >> "$script"
       ;;
     --)
       shift
@@ -117,5 +117,5 @@ fi
 echo "exit" >> "$script"
 
 cat -- "$@" > "$src"
-vim -u NONE -i NONE -N -n -e -s -S "$script" "$src"
+vim -u NONE -i NONE -N -n -e -s -S "$script" -- "$src"
 exit 0
