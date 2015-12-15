@@ -3,7 +3,7 @@ set -eu
 version='0.2.0'
 
 usage() {
-  cat <<__USAGE__ >&2
+  cat <<__USAGE__
 Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 Edit text with Vim script.
 
@@ -22,7 +22,7 @@ __USAGE__
 }
 
 version() {
-  echo "$version" >&2
+  echo "$version"
 }
 
 script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
@@ -38,11 +38,11 @@ require_program=1
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --help)
-      usage
+      usage >&2
       exit 0
       ;;
     --version)
-      version
+      version >&2
       exit 0
       ;;
     -n|--quiet|--silent)
