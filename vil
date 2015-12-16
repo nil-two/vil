@@ -105,7 +105,7 @@ while [ "$#" -gt 0 ]; do
 done
 if [ "$require_program" -eq 1 ]; then
   if [ "$#" -lt 1 ]; then
-    usage
+    usage >&2
     exit 2
   fi
   printf "%s\n" "$1" >> "$script"
