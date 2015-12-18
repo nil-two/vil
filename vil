@@ -25,6 +25,10 @@ version() {
   echo "$version"
 }
 
+warn() {
+  echo "${0##*/}: $*"
+}
+
 script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
 src="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
 atexit() {
@@ -58,7 +62,7 @@ while [ "$#" -gt 0 ]; do
     -e|--expression)
       require_program=0
       if [ "$#" -lt 2 ]; then
-        echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
+        warn "option requires an argument -- '${1##*-}'" >&2
         exit 2
       fi
       printf "%s\n" "$2" >> "$script"
@@ -75,7 +79,7 @@ while [ "$#" -gt 0 ]; do
     -f|--file)
       require_program=0
       if [ "$#" -lt 2 ]; then
-        echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
+        warn "option requires an argument -- '${1##*-}'" >&2
         exit 2
       fi
       cat -- "$2" >> "$script"
@@ -94,7 +98,7 @@ while [ "$#" -gt 0 ]; do
       break
       ;;
     -*)
-      echo "${0##*/}: unrecognized option '$1'" >&2
+      warn "unrecognized option '$1'" >&2
       exit 2
       ;;
     *)
