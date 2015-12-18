@@ -3,7 +3,7 @@ set -eu
 version='0.2.0'
 
 usage() {
-  cat <<__USAGE__
+  cat <<__USAGE__ >&2
 Usage: ${0##*/} [OPTION]... {script-only-if-no-other-script} [input-file]...
 Edit text with Vim script.
 
@@ -22,11 +22,11 @@ __USAGE__
 }
 
 version() {
-  echo "$version"
+  echo "$version" >&2
 }
 
 warn() {
-  echo "${0##*/}: $*"
+  echo "${0##*/}: $*" >&2
 }
 
 script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
@@ -42,11 +42,11 @@ require_program=1
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --help)
-      usage >&2
+      usage
       exit 0
       ;;
     --version)
-      version >&2
+      version
       exit 0
       ;;
     -n|--quiet|--silent)
@@ -62,7 +62,7 @@ while [ "$#" -gt 0 ]; do
     -e|--expression)
       require_program=0
       if [ "$#" -lt 2 ]; then
-        warn "option requires an argument -- '${1##*-}'" >&2
+        warn "option requires an argument -- '${1##*-}'"
         exit 2
       fi
       printf "%s\n" "$2" >> "$script"
@@ -79,7 +79,7 @@ while [ "$#" -gt 0 ]; do
     -f|--file)
       require_program=0
       if [ "$#" -lt 2 ]; then
-        warn "option requires an argument -- '${1##*-}'" >&2
+        warn "option requires an argument -- '${1##*-}'"
         exit 2
       fi
       cat -- "$2" >> "$script"
@@ -98,7 +98,7 @@ while [ "$#" -gt 0 ]; do
       break
       ;;
     -*)
-      warn "unrecognized option '$1'" >&2
+      warn "unrecognized option '$1'"
       exit 2
       ;;
     *)
@@ -109,7 +109,7 @@ while [ "$#" -gt 0 ]; do
 done
 if [ "$require_program" -eq 1 ]; then
   if [ "$#" -lt 1 ]; then
-    usage >&2
+    usage
     exit 2
   fi
   printf "%s\n" "$1" >> "$script"
