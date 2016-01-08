@@ -28,3 +28,31 @@ readonly vil="$BATS_TEST_DIRNAME/../vil"
   local with_quiet="$(echo "$src"  | "$vil" --quiet -e '')"
   [[ $with_n == $with_silent && $with_n == $with_quiet ]]
 }
+
+@test "'vil -e%sort' and 'sort' are equal" {
+  local src=$'bbb\nccc\naaa'
+  local with_vil="$(echo "$src"  | "$vil" -e '%sort')"
+  local with_sort="$(echo "$src" | sort)"
+  [[ $with_vil == $with_sort ]]
+}
+
+@test "'vil -e%sort' and 'vil %sort' are equal" {
+  local src=$'bbb\nccc\naaa'
+  local with_e="$(echo "$src"    | "$vil" -e '%sort')"
+  local without_e="$(echo "$src" | "$vil" '%sort')"
+  [[ $with_e == $without_e ]]
+}
+
+@test "-e and --expression are equal" {
+  local src=$'bbb\nccc\naaa'
+  local with_e="$(echo "$src"          | "$vil" -e '%sort')"
+  local with_expression="$(echo "$src" | "$vil" --expression '%sort')"
+  [[ $with_e == $with_expression ]]
+}
+
+@test "-e can specify multiple" {
+  local src=$'bbb\nccc\naaa'
+  local with_e="$(echo "$src"          | "$vil" -e '%sort|2,$d')"
+  local with_e_multiple="$(echo "$src" | "$vil" -e '%sort' -e '2,$d')"
+  [[ $with_e == $with_e_multiple ]]
+}
