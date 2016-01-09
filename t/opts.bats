@@ -56,3 +56,24 @@ readonly vil="$BATS_TEST_DIRNAME/../vil"
   local with_e_multiple="$(echo "$src" | "$vil" -e '%sort' -e '2,$d')"
   [[ $with_e == $with_e_multiple ]]
 }
+
+@test "'vil -f <(echo %sort)' and 'vil %sort' are equal" {
+  local src=$'bbb\nccc\naaa'
+  local with_f="$(echo "$src" | "$vil" -f <(echo '%sort'))"
+  local with_e="$(echo "$src" | "$vil" '%sort')"
+  [[ $with_f == $with_e ]]
+}
+
+@test "'vil -f <(echo %sort)' and 'vil -e%sort' are equal" {
+  local src=$'bbb\nccc\naaa'
+  local with_f="$(echo "$src" | "$vil" -f <(echo '%sort'))"
+  local with_e="$(echo "$src" | "$vil" -e '%sort')"
+  [[ $with_f == $with_e ]]
+}
+
+@test "'-f and --file are equal" {
+  local src=$'aaa\nbbb\nccc'
+  local with_f="$(echo "$src" | "$vil" -f <(echo '2,$d'))"
+  local with_file="$(echo "$src" | "$vil" --file <(echo '2,$d'))"
+  [[ $with_f == $with_file ]]
+}
