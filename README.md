@@ -1,6 +1,8 @@
 vil
 ===
 
+[![Build Status](https://travis-ci.org/kusabashira/vil.svg?branch=master)](https://travis-ci.org/kusabashira/vil)
+
 Edit text with Vim script.
 
 ```
