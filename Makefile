@@ -2,4 +2,4 @@
 all:
 
 test:
-	@bats t
+	@bats test
