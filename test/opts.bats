@@ -77,3 +77,11 @@ readonly vil="$BATS_TEST_DIRNAME/../vil"
   local with_file="$(echo "$src" | "$vil" --file <(echo '2,$d'))"
   [[ $with_f == $with_file ]]
 }
+
+@test "script is executed in the order in which user specify" {
+  local src=$'aaa\nbbb\nccc\nddd\neee'
+  local dst=$'bbb\nddd'
+  run "$vil" -e 1d -f <(echo 2d) -e 3d <(echo "$src")
+  [[ $status == 0 ]]
+  [[ $output == $dst ]]
+}
