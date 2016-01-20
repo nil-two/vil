@@ -118,7 +118,7 @@ fi
 if [ "$require_print" -eq 1 ]; then
   echo "%print" >> "$script"
 fi
-echo "exit" >> "$script"
+echo "qall!" >> "$script"
 
 cat -- "$@" > "$src"
 vim -u NONE -i NONE -N -n -e -s -S "$script" -- "$src"
