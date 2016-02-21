@@ -59,7 +59,7 @@ Options:
   --help
                  display this help and exit
   --version
-                 output version information and exit
+                 display version information and exit
 ```
 
 License
