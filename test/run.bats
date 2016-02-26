@@ -6,3 +6,9 @@ readonly vil="$BATS_TEST_DIRNAME/../vil"
   run test -x "$vil"
   [[ $status == 0 ]]
 }
+
+@test "show usage if there is no arguments" {
+  run "$vil"
+  [[ $status != 0 ]]
+  [[ $output != '' ]]
+}
