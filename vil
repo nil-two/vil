@@ -29,8 +29,8 @@ warn() {
   echo "${0##*/}: $*" >&2
 }
 
-script="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
-src="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
+script=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
+src=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
 atexit() {
 	rm -f -- "$script" "$src"
 }
@@ -40,7 +40,7 @@ trap "trap - EXIT; atexit; exit -1" INT PIPE TERM
 require_print=1
 require_program=1
 while [ $# -gt 0 ]; do
-  case "$1" in
+  case $1 in
     --help)
       usage
       exit 0
@@ -54,7 +54,7 @@ while [ $# -gt 0 ]; do
       ;;
     -n*)
       require_print=0
-      next="-${1#-n}"
+      next=-${1#-n}
       shift
       set -- "$next" "$@"
       continue
@@ -107,7 +107,7 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
-if [ "$require_program" -eq 1 ]; then
+if [ $require_program -eq 1 ]; then
   if [ $# -lt 1 ]; then
     usage
     exit 2
@@ -115,7 +115,7 @@ if [ "$require_program" -eq 1 ]; then
   printf "%s\n" "$1" >> "$script"
   shift
 fi
-if [ "$require_print" -eq 1 ]; then
+if [ $require_print -eq 1 ]; then
   echo "%print" >> "$script"
 fi
 echo "qall!" >> "$script"
