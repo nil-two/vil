@@ -14,6 +14,13 @@ readonly vil="$BATS_TEST_DIRNAME/../vil"
   [[ $output != '' ]]
 }
 
+@test "exit non-zero if specified the undefined option" {
+  run "$vil" --startuptime
+  [[ $status != 0 ]]
+  [[ $output != '' ]]
+}
+
+
 @test "-n suppress output" {
   local src=$'aaa\nbbb\nccc'
   run "$vil" -n -e '' <(echo "$src")
