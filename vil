@@ -122,4 +122,3 @@ echo "qall!" >> "$script"
 
 cat -- "$@" > "$src"
 vim -u NONE -i NONE -N -n -e -s -S "$script" -- "$src"
-exit 0
