@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
-version="0.2.1"
+
+version=0.2.1
 
 usage() {
   cat <<__USAGE__ >&2
@@ -21,14 +22,6 @@ Options:
 __USAGE__
 }
 
-version() {
-  printf "%s\n" "$version" >&2
-}
-
-warn() {
-  printf "%s: %s\n" "${0##*/}" "$*" >&2
-}
-
 script=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
 src=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
 atexit() {
@@ -37,68 +30,68 @@ atexit() {
 trap "atexit" EXIT
 trap "trap - EXIT; atexit; exit -1" INT PIPE TERM
 
-require_print=1
-require_program=1
-while [ $# -gt 0 ]; do
+require_print=true
+require_program=true
+while [ $# -ge 1 ]; do
   case $1 in
-    --help)
-      usage
-      exit 0
-      ;;
-    --version)
-      version
-      exit 0
-      ;;
     -n|--quiet|--silent)
-      require_print=0
+      require_print=false
       ;;
     -n*)
-      require_print=0
+      require_print=false
       next=-${1#-n}
       shift
       set -- "$next" "$@"
       continue
       ;;
     -e|--expression)
-      require_program=0
+      require_program=false
       if [ $# -lt 2 ]; then
-        warn "option requires an argument -- '${1##*-}'"
+        printf "%s\n" "${0##*/}: option requires an argument -- '${1##*-}'" >&2
         exit 2
       fi
       printf "%s\n" "$2" >> "$script"
       shift
       ;;
     -e*)
-      require_program=0
+      require_program=false
       printf "%s\n" "${1#-e}" >> "$script"
       ;;
     --expression=*)
-      require_program=0
+      require_program=false
       printf "%s\n" "${1#--expression=}" >> "$script"
       ;;
     -f|--file)
-      require_program=0
+      require_program=false
       if [ $# -lt 2 ]; then
-        warn "option requires an argument -- '${1##*-}'"
+        printf "%s\n" "${0##*/}: option requires an argument -- '${1##*-}'" >&2
         exit 2
       fi
       cat -- "$2" >> "$script"
       shift
       ;;
     -f*)
-      require_program=0
+      require_program=false
       cat -- "${1#-f}" >> "$script"
       ;;
     --file=*)
-      require_program=0
+      require_program=false
       cat -- "${1#--file=}" >> "$script"
+      ;;
+    --help)
+      usage
+      exit 0
+      ;;
+    --version)
+      printf "%s\n" "$version"
+      exit 0
       ;;
     --)
       shift
       break
       ;;
     -*)
-      warn "unrecognized option '$1'"
+      printf "%s\n" "${0##*/}: unrecognized option '$1'" >&2
       exit 2
       ;;
     *)
@@ -107,7 +100,7 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
-if [ $require_program -eq 1 ]; then
+if $require_program; then
   if [ $# -lt 1 ]; then
     usage
     exit 2
@@ -115,7 +108,7 @@ if [ $require_program -eq 1 ]; then
   printf "%s\n" "$1" >> "$script"
   shift
 fi
-if [ $require_print -eq 1 ]; then
+if $require_print; then
   echo "%print" >> "$script"
 fi
 echo "qall!" >> "$script"

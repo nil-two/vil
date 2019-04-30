@@ -1,14 +1,16 @@
 #!/usr/bin/env bats
 
-readonly vil="$BATS_TEST_DIRNAME/../vil"
+readonly vil=$BATS_TEST_DIRNAME/../vil
 
-@test "can execute" {
+@test 'can execute' {
   run test -x "$vil"
   [[ $status == 0 ]]
 }
 
-@test "show usage if there is no arguments" {
+@test 'show usage if there is no arguments' {
   run "$vil"
   [[ $status != 0 ]]
-  [[ $output != '' ]]
+  [[ $output != "" ]]
 }
+
+# vim: ft=sh

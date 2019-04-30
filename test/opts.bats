@@ -1,94 +1,95 @@
 #!/usr/bin/env bats
 
-readonly vil="$BATS_TEST_DIRNAME/../vil"
+readonly vil=$BATS_TEST_DIRNAME/../vil
 
-@test "exit 0 at --help" {
+@test 'exit 0 at --help' {
   run "$vil" --help
   [[ $status == 0 ]]
-  [[ $output != '' ]]
+  [[ $output != "" ]]
 }
 
-@test "exit 0 at --version" {
+@test 'exit 0 at --version' {
   run "$vil" --version
   [[ $status == 0 ]]
-  [[ $output != '' ]]
+  [[ $output != "" ]]
 }
 
-@test "exit non-zero if specified the undefined option" {
+@test 'exit non-zero if specified the undefined option' {
   run "$vil" --startuptime
   [[ $status != 0 ]]
-  [[ $output != '' ]]
+  [[ $output != "" ]]
 }
 
-
-@test "-n suppress output" {
+@test '-n suppress output' {
   local src=$'aaa\nbbb\nccc'
-  run "$vil" -n -e '' <(echo "$src")
+  run "$vil" -n -e "" <(echo "$src")
   [[ $status == 0 ]]
-  [[ $output == '' ]]
+  [[ $output == "" ]]
 }
 
-@test "-n, --silent, and --quiet are equal" {
+@test '-n, --silent, and --quiet are equal' {
   local src=$'aaa\nbbb\nccc'
-  local with_n="$(echo "$src"      | "$vil" -n -e '')"
-  local with_silent="$(echo "$src" | "$vil" --silent -e '')"
-  local with_quiet="$(echo "$src"  | "$vil" --quiet -e '')"
+  local with_n=$(echo "$src"      | "$vil" -n -e "")
+  local with_silent=$(echo "$src" | "$vil" --silent -e "")
+  local with_quiet=$(echo "$src"  | "$vil" --quiet -e "")
   [[ $with_n == $with_silent && $with_n == $with_quiet ]]
 }
 
-@test "'vil -e%sort' and 'sort' are equal" {
+@test '"vil -e%sort" and "sort" are equal' {
   local src=$'bbb\nccc\naaa'
-  local with_vil="$(echo "$src"  | "$vil" -e '%sort')"
-  local with_sort="$(echo "$src" | sort)"
+  local with_vil=$(echo "$src"  | "$vil" -e '%sort')
+  local with_sort=$(echo "$src" | sort)
   [[ $with_vil == $with_sort ]]
 }
 
-@test "'vil -e%sort' and 'vil %sort' are equal" {
+@test '"vil -e%sort" and "vil %sort" are equal' {
   local src=$'bbb\nccc\naaa'
-  local with_e="$(echo "$src"    | "$vil" -e '%sort')"
-  local without_e="$(echo "$src" | "$vil" '%sort')"
+  local with_e=$(echo "$src"    | "$vil" -e '%sort')
+  local without_e=$(echo "$src" | "$vil" '%sort')
   [[ $with_e == $without_e ]]
 }
 
-@test "-e and --expression are equal" {
+@test '-e and --expression are equal' {
   local src=$'bbb\nccc\naaa'
-  local with_e="$(echo "$src"          | "$vil" -e '%sort')"
-  local with_expression="$(echo "$src" | "$vil" --expression '%sort')"
+  local with_e=$(echo "$src"          | "$vil" -e '%sort')
+  local with_expression=$(echo "$src" | "$vil" --expression '%sort')
   [[ $with_e == $with_expression ]]
 }
 
-@test "-e can specify multiple" {
+@test '-e can specify multiple' {
   local src=$'bbb\nccc\naaa'
-  local with_e="$(echo "$src"          | "$vil" -e '%sort|2,$d')"
-  local with_e_multiple="$(echo "$src" | "$vil" -e '%sort' -e '2,$d')"
+  local with_e=$(echo "$src"          | "$vil" -e '%sort|2,$d')
+  local with_e_multiple=$(echo "$src" | "$vil" -e '%sort' -e '2,$d')
   [[ $with_e == $with_e_multiple ]]
 }
 
-@test "'vil -f <(echo %sort)' and 'vil %sort' are equal" {
+@test '"vil -f <(echo %sort)" and "vil %sort" are equal' {
   local src=$'bbb\nccc\naaa'
-  local with_f="$(echo "$src" | "$vil" -f <(echo '%sort'))"
-  local with_e="$(echo "$src" | "$vil" '%sort')"
+  local with_f=$(echo "$src" | "$vil" -f <(echo '%sort'))
+  local with_e=$(echo "$src" | "$vil" '%sort')
   [[ $with_f == $with_e ]]
 }
 
-@test "'vil -f <(echo %sort)' and 'vil -e%sort' are equal" {
+@test '"vil -f <(echo %sort)" and "vil -e%sort" are equal' {
   local src=$'bbb\nccc\naaa'
-  local with_f="$(echo "$src" | "$vil" -f <(echo '%sort'))"
-  local with_e="$(echo "$src" | "$vil" -e '%sort')"
+  local with_f=$(echo "$src" | "$vil" -f <(echo '%sort'))
+  local with_e=$(echo "$src" | "$vil" -e '%sort')
   [[ $with_f == $with_e ]]
 }
 
-@test "'-f and --file are equal" {
+@test '-f and --file are equal' {
   local src=$'aaa\nbbb\nccc'
-  local with_f="$(echo "$src" | "$vil" -f <(echo '2,$d'))"
-  local with_file="$(echo "$src" | "$vil" --file <(echo '2,$d'))"
+  local with_f=$(echo "$src" | "$vil" -f <(echo '2,$d'))
+  local with_file=$(echo "$src" | "$vil" --file <(echo '2,$d'))
   [[ $with_f == $with_file ]]
 }
 
-@test "script is executed in the order in which user specify" {
+@test 'script is executed in the order in which user specify' {
   local src=$'aaa\nbbb\nccc\nddd\neee'
   local dst=$'bbb\nddd'
   run "$vil" -e 1d -f <(echo 2d) -e 3d <(echo "$src")
   [[ $status == 0 ]]
   [[ $output == $dst ]]
 }
+
+# vim: ft=sh
