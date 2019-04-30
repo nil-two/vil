@@ -109,9 +109,9 @@ if $require_program; then
   shift
 fi
 if $require_print; then
-  echo "%print" >> "$script"
+  printf "%s\n" "%print" >> "$script"
 fi
-echo "qall!" >> "$script"
+printf "%s\n" "qall!" >> "$script"
 
 cat -- "$@" > "$src"
 vim -u NONE -i NONE -N -n -e -s -S "$script" -- "$src"
