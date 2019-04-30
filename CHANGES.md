@@ -1,3 +1,7 @@
+### v0.3.0 - 2019-05-01
+
+- Print usage to stdout if --help specified
+
 ### v0.2.1 - 2016-02-23
 
 - Exit even if multiple tabs are opened.

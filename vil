@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-version=0.2.1
+version=0.3.0
 
 usage() {
   cat <<__USAGE__
