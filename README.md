@@ -22,26 +22,7 @@ add the script to the commands to be executed
 add the contents of script-file to the commands to be executed
 display this help and exit
 output version information and exit
-
 ```
-
-Installation
-------------
-
-vil is a simple shell script.
-
-The following instructions assume that `~/bin` is on your `$PATH`.
-If that is not the case, you can substitute your favorite location.
-
-```sh
-curl -L https://raw.githubusercontent.com/kusabashira/vil/master/vil > ~/bin/vil
-chmod 755 ~/bin/vil
-```
-
-Requirements
------------
-
-- Vim
 
 Usage
 -----
@@ -62,6 +43,105 @@ Options:
                  display version information and exit
 ```
 
+Requirements
+-----------
+
+- Vim
+
+Installation
+------------
+
+vil is a simple shell script.
+
+The following instructions assume that `~/bin` is on your `$PATH`.
+If that is not the case, you can substitute your favorite location.
+
+```sh
+curl -L https://raw.githubusercontent.com/kusabashira/vil/master/vil > ~/bin/vil
+chmod 755 ~/bin/vil
+```
+
+Options
+-------
+
+### -n, --quiet, --silent
+
+Suppress automatic printing of buffer.
+
+```
+$ seq 10 | vil -n 's/.*/.../'
+(Print nothing)
+
+$ seq 10 | vil -n 'g/../-1p'
+9
+```
+
+### -e script, --expression=script
+
+Add the script to the commands to be executed.
+
+```
+$ seq 5 | vil -e '%s/.*/**/'
+**
+**
+**
+**
+**
+
+$ seq 10 | vil -e 5d -e 2,5d
+1
+7
+8
+9
+10
+```
+
+### -f script-file, --file=script-file
+
+Add the contents of script-file to the commands to be executed.
+
+```
+$ cat script.vim
+3d
+5d
+
+$ seq 10 | vil -f script.vim
+1
+2
+4
+5
+7
+8
+9
+10
+
+$ seq 10 | vil -f script.vim -f script.vim
+1
+2
+5
+7
+9
+10
+```
+
+### --help
+
+Display this help and exit.
+
+```
+$ vil --help
+(Print usage)
+```
+
+### --version
+
+Display version information and exit.
+
+```
+$ vil --version
+(Print version)
+```
+
 License
 -------
 
@@ -70,4 +150,4 @@ MIT License
 Author
 ------
 
-kusabashira <kusabashira227@gmail.com>
+nil2 <nil2@nil2.org>
