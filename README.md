@@ -1,7 +1,7 @@
 vil
 ===
 
-[![Build Status](https://travis-ci.org/kusabashira/vil.svg?branch=master)](https://travis-ci.org/kusabashira/vil)
+![CI](https://github.com/kusabashira/vil/workflows/CI/badge.svg)
 
 Edit text with Vim script.
 

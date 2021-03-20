@@ -35,14 +35,14 @@ readonly vil=$BATS_TEST_DIRNAME/../vil
   [[ $with_n == $with_silent && $with_n == $with_quiet ]]
 }
 
-@test '"vil -e%sort" and "sort" are equal' {
+@test '-esort and sort-command are equal' {
   local src=$'bbb\nccc\naaa'
   local with_vil=$(printf "%s\n" "$src"  | "$vil" -e '%sort')
   local with_sort=$(printf "%s\n" "$src" | sort)
   [[ $with_vil == $with_sort ]]
 }
 
-@test '"vil -e%sort" and "vil %sort" are equal' {
+@test '-esort and sort are equal' {
   local src=$'bbb\nccc\naaa'
   local with_e=$(printf "%s\n" "$src"    | "$vil" -e '%sort')
   local without_e=$(printf "%s\n" "$src" | "$vil" '%sort')
@@ -63,14 +63,14 @@ readonly vil=$BATS_TEST_DIRNAME/../vil
   [[ $with_e == $with_e_multiple ]]
 }
 
-@test '"vil -f <(printf "%s\n" %sort)" and "vil %sort" are equal' {
+@test '-fsort and sort are equal' {
   local src=$'bbb\nccc\naaa'
   local with_f=$(printf "%s\n" "$src" | "$vil" -f <(printf "%s\n" '%sort'))
   local with_e=$(printf "%s\n" "$src" | "$vil" '%sort')
   [[ $with_f == $with_e ]]
 }
 
-@test '"vil -f <(printf "%s\n" %sort)" and "vil -e%sort" are equal' {
+@test '-fsort and -esort are equal' {
   local src=$'bbb\nccc\naaa'
   local with_f=$(printf "%s\n" "$src" | "$vil" -f <(printf "%s\n" '%sort'))
   local with_e=$(printf "%s\n" "$src" | "$vil" -e '%sort')
@@ -92,4 +92,4 @@ readonly vil=$BATS_TEST_DIRNAME/../vil
   [[ $output == $dst ]]
 }
 
-# vim: ft=sh
+# vim: ft=bash
