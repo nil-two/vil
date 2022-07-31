@@ -1,7 +1,7 @@
 vil
 ===
 
-![CI](https://github.com/kusabashira/vil/workflows/CI/badge.svg)
+![CI](https://github.com/nil2nekoni/vil/workflows/CI/badge.svg)
 
 Edit text with Vim script.
 
@@ -57,7 +57,7 @@ The following instructions assume that `~/bin` is on your `$PATH`.
 If that is not the case, you can substitute your favorite location.
 
 ```sh
-curl -L https://raw.githubusercontent.com/kusabashira/vil/master/vil > ~/bin/vil
+curl -L https://raw.githubusercontent.com/nil2nekoni2/vil/master/vil > ~/bin/vil
 chmod 755 ~/bin/vil
 ```
 
